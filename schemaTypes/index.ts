@@ -1,4 +1,4 @@
-import {customerStoryType} from './customerStoryType'
-import homePage from './homePage'
+import {customerStoryType} from './documents/customerStoryType'
+import homePage from './documents/homePage'
 
 export const schemaTypes = [customerStoryType, homePage]

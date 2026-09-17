@@ -1,12 +1,12 @@
 // schemaTypes/formBlock.ts
-import { defineType, defineField } from 'sanity'
+import {defineType, defineField} from 'sanity'
 
 export default defineType({
   name: 'formBlock',
   title: 'Form',
   type: 'object',
   fields: [
-    defineField({ name: 'heading', type: 'string' }),
+    defineField({name: 'heading', type: 'string'}),
     // defineField({ name: 'subheading', type: 'text' }),
     defineField({
       name: 'formType',
@@ -14,9 +14,9 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-        //   { title: 'Contact Form', value: 'contact' },
-        //   { title: 'Newsletter Signup', value: 'newsletter' },
-          { title: 'Demo Request', value: 'demo' },
+          {title: 'Contact Form', value: 'contact'},
+          {title: 'Newsletter Signup', value: 'newsletter'},
+          {title: 'Demo Request', value: 'demo'},
         ],
         layout: 'radio',
       },
@@ -27,10 +27,10 @@ export default defineType({
       type: 'string',
       initialValue: 'Submit',
     }),
-    defineField({ name: 'successMessage', type: 'text' }),
-    // defineField({ name: 'recipientEmail', title: 'Send submissions to', type: 'string' }),
+    defineField({name: 'successMessage', type: 'text'}),
+    defineField({name: 'recipientEmail', title: 'Send submissions to', type: 'string'}),
   ],
   preview: {
-    select: { title: 'heading', subtitle: 'formType' },
+    select: {title: 'heading', subtitle: 'formType'},
   },
 })
