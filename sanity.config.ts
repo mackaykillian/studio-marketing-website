@@ -3,7 +3,11 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 
-const singletons = ['homePage']
+// Types that should only ever have one document
+const singletonTypes = new Set(['homePage'])
+
+// Actions that make sense for a singleton
+const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
 
 export default defineConfig({
   name: 'default',
@@ -12,28 +16,36 @@ export default defineConfig({
   projectId: '7o6t0dl5',
   dataset: 'production',
 
-  plugins: [    structureTool({
+  plugins: [
+    structureTool({
       structure: (S) =>
         S.list()
           .title('Content')
           .items([
             S.listItem()
               .title('Home Page')
-              .child(S.document().schemaType('homePage').documentId('homePage')),
-            S.listItem()
-              .title('About Page')
-              .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
-            S.listItem()
-              .title('Contact Page')
-              .child(S.document().schemaType('contactPage').documentId('contactPage')),
+              .id('homePage')
+              .schemaType('homePage')
+              .child(S.document().schemaType('homePage').documentId('homePage').title('Home Page')),
             S.divider(),
-            ...S.documentTypeListItems().filter(
-              (item) => item.getId() && !singletons.includes(item.getId()!)
-            ),
+            // Everything else, minus the singletons
+            ...S.documentTypeListItems().filter((item) => !singletonTypes.has(item.getId()!)),
           ]),
-    }), visionTool()],
+    }),
+    visionTool(),
+  ],
 
   schema: {
     types: schemaTypes,
+    // Keep homePage out of the global "New document" menu
+    templates: (templates) => templates.filter(({schemaType}) => !singletonTypes.has(schemaType)),
+  },
+
+  document: {
+    // Strip Duplicate / Delete from singletons
+    actions: (input, {schemaType}) =>
+      singletonTypes.has(schemaType)
+        ? input.filter(({action}) => action && singletonActions.has(action))
+        : input,
   },
 })
