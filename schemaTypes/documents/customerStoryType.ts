@@ -47,15 +47,6 @@ export const customerStoryType = defineType({
       title: 'Wistia Video URL',
       type: 'url',
       description: 'Paste the full Wistia video URL (e.g., https://wistia.com)',
-      validation: (Rule) =>
-        Rule.required().custom((url) => {
-          if (!url) return true
-
-          // Regex to validate standard Wistia watch links and embed links
-          const wistiaRegex = /(?:wistia\.com|wi\.st)\/(?:medias|series)\/[a-zA-Z0-9]+/
-
-          return wistiaRegex.test(url) ? true : 'Please enter a valid Wistia video link.'
-        }),
     }),
     defineField({
       name: 'body',
