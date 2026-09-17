@@ -9,18 +9,5 @@ export default defineType({
     defineField({name: 'heroEyebrow', type: 'string'}),
     defineField({name: 'heroHeading', type: 'string'}),
     defineField({name: 'heroSubheading', type: 'text'}),
-    defineField({name: 'heroImage', type: 'image', options: {hotspot: true}}),
-    defineField({
-      name: 'sections',
-      title: 'Page Sections',
-      type: 'array',
-      of: [
-        {type: 'ctaBlock'},
-        {type: 'testimonialBlock'},
-        {type: 'faqBlock'},
-        {type: 'imageTextBlock'},
-      ],
-    }),
-    defineField({name: 'seo', type: 'seoMeta'}),
   ],
 })
