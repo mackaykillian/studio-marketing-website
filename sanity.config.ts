@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
+import {documentInternationalization} from '@sanity/document-internationalization'
 
 // Types that should only ever have one document
 const singletonTypes = new Set(['homePage', 'platformOverview'])
@@ -22,6 +23,14 @@ export default defineConfig({
       structure,
     }),
     visionTool(),
+    documentInternationalization({
+      // Required configuration
+      supportedLanguages: [
+        {id: 'en', title: 'English'},
+        {id: 'fr', title: 'French'},
+      ],
+      schemaTypes: ['customerStory'],
+    }),
   ],
 
   schema: {
