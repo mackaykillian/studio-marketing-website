@@ -25,7 +25,31 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      S.documentTypeListItem('customerStory'),
+      S.listItem()
+        .title('Customer Stories')
+        .schemaType('customerStory')
+        .child(
+          S.list()
+            .title('Customer Stories')
+            .items([
+              S.listItem()
+                .title('English')
+                .child(
+                  S.documentTypeList('customerStory')
+                    .title('English Customer Stories')
+                    .filter('_type == "customerStory" && language == $lang')
+                    .params({lang: 'en'}),
+                ),
+              S.listItem()
+                .title('French')
+                .child(
+                  S.documentTypeList('customerStory')
+                    .title('French Customer Stories')
+                    .filter('_type == "customerStory" && language == $lang')
+                    .params({lang: 'fr'}),
+                ),
+            ]),
+        ),
       S.documentTypeListItem('glossaryTerms'),
 
       S.divider(),
