@@ -20,7 +20,34 @@ export const customerStoryType = defineType({
       name: 'slug',
       type: 'slug',
       title: 'Slug',
-      options: {source: 'title'},
+      options: {
+        source: 'title', // or whatever your source field is
+        maxLength: 96,
+        isUnique: async (slug, context) => {
+          const {document, getClient} = context
+          const client = getClient({apiVersion: '2024-01-01'})
+
+          const id = document?._id.replace(/^drafts\./, '')
+          const language = document?.language
+
+          const params = {
+            draft: `drafts.${id}`,
+            published: id,
+            slug,
+            language,
+          }
+
+          const query = `!defined(*[
+        _type == "customerStory" &&
+        slug.current == $slug &&
+        language == $language &&
+        !(_id in [$draft, $published])
+      ][0]._id)`
+
+          const result = await client.fetch(query, params)
+          return result
+        },
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({
