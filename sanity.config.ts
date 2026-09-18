@@ -2,9 +2,10 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
+import {structure} from './structure'
 
 // Types that should only ever have one document
-const singletonTypes = new Set(['homePage'])
+const singletonTypes = new Set(['homePage', 'platformOverview'])
 
 // Actions that make sense for a singleton
 const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
@@ -18,19 +19,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
-        S.list()
-          .title('Content')
-          .items([
-            S.listItem()
-              .title('Home Page')
-              .id('homePage')
-              .schemaType('homePage')
-              .child(S.document().schemaType('homePage').documentId('homePage').title('Home Page')),
-            S.divider(),
-            // Everything else, minus the singletons
-            ...S.documentTypeListItems().filter((item) => !singletonTypes.has(item.getId()!)),
-          ]),
+      structure,
     }),
     visionTool(),
   ],

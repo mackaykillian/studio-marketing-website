@@ -1,11 +1,15 @@
 import {defineField, defineType} from 'sanity'
 import {relatedStories} from '../fields/relatedStories'
+import {companyReference} from '../fields/companyReference'
+import {industryReference} from '../fields/industryReference'
+import {businessSizeReference} from '../fields/businessSizeReference'
 
 export const customerStoryType = defineType({
   name: 'customerStory',
   title: 'Customer Story',
   type: 'document',
   fields: [
+    companyReference,
     defineField({
       name: 'title',
       title: 'Title',
@@ -55,5 +59,7 @@ export const customerStoryType = defineType({
       of: [{type: 'block'}],
     }),
     relatedStories,
+    industryReference,
+    businessSizeReference,
   ],
 })
